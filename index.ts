@@ -70,13 +70,33 @@ class MCPClient {
     const messages: MessageParam[] = [
       {
         role: 'user',
-        content: query,
+        content: `
+Your task is to generate JSONL data that generates a variety of play scripts using different children-friendly characters.
+Each script should be formatted in a way that is suitable for children, with clear dialogues and stage directions.
+
+You only respond with one single JSONL response.
+Always start with the same system prompt: {"role": "system", "content": "A conversation between a user and a helpful assistant. Taking the role as a play writer assistant for a kids' play."}
+Vary the character in the user request: {"role": "user", "content": "generate a script about The Wise Owl"}
+Generate a new script for each request, ensuring it is suitable for children.:  {"role": "assistant", "content": "<center>Act One</center>\n\n<center>Scene 1</center>\n\n<stage>A moonlit forest clearing. Night time. An ancient oak tree dominates the center.</stage>\n\n<center>PROFESSOR FINCH</center>\n\n<dialog>I've been searching these woods for hours. The rare night owl must be somewhere!</dialog>\n\n<center>OWL</center>\n\n<dialog>Perhaps what you seek has been watching you all along.</dialog>\n\n<stage>PROFESSOR FINCH jumps, startled, and looks up to see OWL perched on a branch above.</stage>\n\n<center>PROFESSOR FINCH</center>\n\n<dialog>Magnificent! A Tawny Owl with the ability to speak!</dialog>\n\n<center>OWL</center>\n\n<dialog>All creatures speak. Few humans listen.</dialog>"}]
+
+Only generate ONE system prompt, ONE user request, and ONE assistant response in the JSONL format.
+
+Use the tools provided to vary the characters and themes of the plays.
+
+Example:
+[{"role": "system", "content": "A conversation between a user and a helpful assistant. Taking the role as a play writer assistant for a kids' play."}, {"role": "user", "content": "generate a script about The Wise Owl"}, {"role": "assistant", "content": "<center>Act One</center>\n\n<center>Scene 1</center>\n\n<stage>A moonlit forest clearing. Night time. An ancient oak tree dominates the center.</stage>\n\n<center>PROFESSOR FINCH</center>\n\n<dialog>I've been searching these woods for hours. The rare night owl must be somewhere!</dialog>\n\n<center>OWL</center>\n\n<dialog>Perhaps what you seek has been watching you all along.</dialog>\n\n<stage>PROFESSOR FINCH jumps, startled, and looks up to see OWL perched on a branch above.</stage>\n\n<center>PROFESSOR FINCH</center>\n\n<dialog>Magnificent! A Tawny Owl with the ability to speak!</dialog>\n\n<center>OWL</center>\n\n<dialog>All creatures speak. Few humans listen.</dialog>"}]
+
+JSONL format:
+`,
       },
     ]
+
+    const SYSTEM_PROMPT = "You are a highly qualified playwrighter for kids' plays writing training data for a large language model."
 
     const response = await this.anthropic.messages.create({
       model: 'claude-3-5-sonnet-20241022',
       max_tokens: 1000,
+      system: SYSTEM_PROMPT,
       messages,
       tools: this.tools,
     })
