@@ -68,5 +68,8 @@ After starting, you can type any query (or just press enter). The client will ge
 - The query you enter at the command line does not matter; the output is determined by the fixed prompts in the code.
 - You can modify the prompts and system prompt in `index.ts` to suit your data generation needs.
 
+## Origins
+This example is from Apple Foundation Models adapter fine-tuning [tutorial](https://developer.apple.com/apple-intelligence/foundation-models-adapter/).
+
 ## License
 MIT
